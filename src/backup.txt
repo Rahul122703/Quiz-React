@@ -1,0 +1,27 @@
+  // const fetchData = async (url) => {
+  //   setLoading(true);
+  //   const response = await axios(url).catch((e) => console.log(e));
+  //   console.log("fetched data", response);
+  //   if (response) {
+  //     if (response.data.results.length !== 0 || response.status !== 429) {
+  //       setQuizData(response.data.results);
+  //       setLoading(false);
+  //       setWaiting(false);
+  //       setQuestionData(response.data.results[index]);
+  //       console.log(response.data.results);
+  //       setScore(0);
+  //       setIndex(0);
+  //       setError(false);
+  //     } else {
+  //       console.log("here");
+  //       setError(true);
+  //       setWaiting(true);
+  //       setLoading(false);
+  //     }
+  //   } else {
+  //     console.log("here");
+  //     setError(true);
+  //     setWaiting(true);
+  //     setLoading(false);
+  //   }
+  // };

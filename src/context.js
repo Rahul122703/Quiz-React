@@ -1,4 +1,4 @@
-import react from "react";
+import react, { useEffect } from "react";
 import { useState, useContext } from "react";
 import axios from "axios";
 
@@ -15,7 +15,6 @@ const options = {
   board_games: 16,
   science_and_nature: 17,
   computers: 18,
-  mathematics: 19,
   mythology: 20,
   sports: 21,
   geography: 22,
@@ -42,35 +41,47 @@ const AppProvider = ({ children }) => {
 
   const [quizData, setQuizData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [wating, setWating] = useState(true);
+  const [wating, setWaiting] = useState(true);
   const [questionData, setQuestionData] = useState();
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [error, setError] = useState(false);
 
   const fetchData = async (url) => {
-    setLoading(true);
-    const response = await axios(url).catch((e) => console.log(e));
-    console.log(response);
-    if (response) {
-      if (response.data.results.length !== 0 || response.status !== 429) {
-        setQuizData(response.data.results);
+    try {
+      setLoading(true);
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        console.log(`Error: ${response.status} - ${response.statusText}`);
+        setError(true);
+        setWaiting(true);
         setLoading(false);
-        setWating(false);
-        setQuestionData(response.data.results[index]);
+        return;
+      }
+
+      const data = await response.json();
+      console.log("fetched data", data);
+
+      if (data.results.length !== 0 && response.status !== 429) {
+        setQuizData(data.results);
+        setLoading(false);
+        setWaiting(false);
+        setQuestionData(data.results[index]);
+        console.log(data.results);
         setScore(0);
         setIndex(0);
         setError(false);
       } else {
-        console.log("here");
+        console.log("No valid data");
         setError(true);
-        setWating(true);
+        setWaiting(true);
         setLoading(false);
       }
-    } else {
-      console.log("here");
+    } catch (error) {
+      console.log("Fetch error:", error);
       setError(true);
-      setWating(true);
+      setWaiting(true);
       setLoading(false);
     }
   };
@@ -92,20 +103,29 @@ const AppProvider = ({ children }) => {
     fetchData(
       `${API_ENDPOINT}${amount}&${category}&${difficulty}&type=multiple`
     );
-    setWating(false);
+    console.log(
+      `${API_ENDPOINT}${amount}&${category}&${difficulty}&type=multiple`
+    );
+    setWaiting(false);
   };
 
   const nextQuestion = (currentItem) => {
+    setIndex((currentIndex) => {
+      console.log("old index", currentIndex);
+      return currentIndex + 1;
+    });
     if (currentItem) {
       setScore((currentScore) => currentScore + 1);
     }
-    setIndex((currentIndex) => currentIndex + 1);
-    setQuestionData(quizData[index]);
-    console.log(quiz);
   };
 
+  useEffect(() => {
+    setQuestionData(quizData[index]);
+  }, [index]);
+
   const playAgain = () => {
-    setWating(true);
+    setWaiting(true);
+    setIndex(0);
   };
 
   return (
