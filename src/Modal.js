@@ -4,7 +4,7 @@ import { useGlobalContext } from "./context";
 const Modal = () => {
   const { score, quiz, playAgain } = useGlobalContext();
   return (
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 ">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg mx-4 transform transition-all duration-300 ease-in-out">
         <p className="text-center text-lg mt-2 text-gray-600">
           You answered {(score / quiz.amount) * 100}% of questions correct.

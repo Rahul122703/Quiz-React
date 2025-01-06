@@ -62,6 +62,7 @@ const AppProvider = ({ children }) => {
 
       if (data.results.length !== 0 && response.status !== 429) {
         setQuizData(data.results);
+        console.log(data.results);
         setLoading(false);
         setWaiting(false);
         setQuestionData(data.results[index]);
