@@ -69,6 +69,7 @@ const AppProvider = ({ children }) => {
         setScore(0);
         setIndex(0);
         setError(false);
+        quiz.amount = data.results.length;
       } else {
         setError(true);
         setWaiting(true);
