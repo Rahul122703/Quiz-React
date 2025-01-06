@@ -1,6 +1,5 @@
 import react, { useEffect } from "react";
 import { useState, useContext } from "react";
-import axios from "axios";
 
 const AppContext = react.createContext();
 
@@ -53,7 +52,6 @@ const AppProvider = ({ children }) => {
       const response = await fetch(url);
 
       if (!response.ok) {
-        console.log(`Error: ${response.status} - ${response.statusText}`);
         setError(true);
         setWaiting(true);
         setLoading(false);
@@ -61,25 +59,21 @@ const AppProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      console.log("fetched data", data);
 
       if (data.results.length !== 0 && response.status !== 429) {
         setQuizData(data.results);
         setLoading(false);
         setWaiting(false);
         setQuestionData(data.results[index]);
-        console.log(data.results);
         setScore(0);
         setIndex(0);
         setError(false);
       } else {
-        console.log("No valid data");
         setError(true);
         setWaiting(true);
         setLoading(false);
       }
     } catch (error) {
-      console.log("Fetch error:", error);
       setError(true);
       setWaiting(true);
       setLoading(false);
@@ -103,15 +97,11 @@ const AppProvider = ({ children }) => {
     fetchData(
       `${API_ENDPOINT}${amount}&${category}&${difficulty}&type=multiple`
     );
-    console.log(
-      `${API_ENDPOINT}${amount}&${category}&${difficulty}&type=multiple`
-    );
     setWaiting(false);
   };
 
   const nextQuestion = (currentItem) => {
     setIndex((currentIndex) => {
-      console.log("old index", currentIndex);
       return currentIndex + 1;
     });
     if (currentItem) {

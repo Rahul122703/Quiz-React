@@ -23,7 +23,6 @@ function App() {
   if (loading) {
     return <Loader />;
   }
-  console.log(`${index + 1} / ${quiz.amount} `);
 
   if (quiz.amount < index + 1) {
     return <Modal />;
@@ -41,7 +40,6 @@ function App() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-800 flex items-center justify-center p-4">
-      {console.log("inapp", questionData)}
       <section className="bg-white w-full max-w-4xl rounded-lg shadow-lg p-6 md:p-10 relative">
         <div className="absolute top-0 left-0 bg-blue-500 text-white font-bold py-2 px-4 rounded-tl-lg rounded-br-lg">
           {index + 1}
